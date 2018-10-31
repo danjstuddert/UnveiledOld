@@ -2,8 +2,8 @@
 
 [System.Serializable]
 public class HealthPip {
-    [SerializeField] private int healthAmount;
-    [SerializeField] private float regenTime;
+    public int healthAmount;
+    public float regenTime;
 
     public float RegenPercent { get { return regenCount / regenTime; } }
 

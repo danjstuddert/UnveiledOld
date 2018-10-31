@@ -251,13 +251,14 @@ namespace Valve.VR.InteractionSystem
                 float rbSpeed = rb.velocity.sqrMagnitude;
                 bool canStick = collision.gameObject.GetComponent<AnchorPoint>();
 
-                Debug.Log(collision.collider.material.name);
+                if (collision.collider.sharedMaterial)
+                    Debug.Log(collision.collider.sharedMaterial.name);
 
                 if (canStick == false)
                 {
                     for (int i = 0; i < targetPhysMaterial.Count; i++)
                     {
-                        if(collision.collider.material == targetPhysMaterial[i])
+                        if(collision.collider.sharedMaterial && collision.collider.sharedMaterial.name.Contains(targetPhysMaterial[i].name))
                         {
                             canStick = true;
                             break;
@@ -433,27 +434,27 @@ namespace Valve.VR.InteractionSystem
             Vector3 prevForward = prevRotation * Vector3.forward;
 
             // Only stick in target if the collider is front of the arrow head
-            if (!bSkipRayCast)
-            {
-                RaycastHit[] hitInfo;
-                hitInfo = Physics.RaycastAll(prevHeadPosition - prevVelocity * Time.deltaTime, prevForward, prevVelocity.magnitude * Time.deltaTime * 2.0f);
-                bool properHit = false;
-                for (int i = 0; i < hitInfo.Length; ++i)
-                {
-                    RaycastHit hit = hitInfo[i];
+            //if (!bSkipRayCast)
+            //{
+            //    RaycastHit[] hitInfo;
+            //    hitInfo = Physics.RaycastAll(prevHeadPosition - prevVelocity * Time.deltaTime, prevForward, prevVelocity.magnitude * Time.deltaTime * 2.0f);
+            //    bool properHit = false;
+            //    for (int i = 0; i < hitInfo.Length; ++i)
+            //    {
+            //        RaycastHit hit = hitInfo[i];
 
-                    if (hit.collider == collision.collider)
-                    {
-                        properHit = true;
-                        break;
-                    }
-                }
+            //        if (hit.collider == collision.collider)
+            //        {
+            //            properHit = true;
+            //            break;
+            //        }
+            //    }
 
-                if (!properHit)
-                {
-                    return;
-                }
-            }
+            //    if (!properHit)
+            //    {
+            //        return;
+            //    }
+            //}
 
             if (glintParticle != null)
             {
